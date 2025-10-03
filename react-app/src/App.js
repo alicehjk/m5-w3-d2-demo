@@ -47,22 +47,40 @@ function App() {
   };
 
   return (
-    <div className="container mt-4">
-      <CreateList singledata={singledata} handleChange={handleChange} CreateList={createBook} />
-      <h2 className="my-3">Book List</h2>
+<div className="container mt-4">
+  <h2 className="my-3">Book List</h2>
+  <CreateList singledata={singledata} handleChange={handleChange} CreateList={createBook} />
 
-      <ul className="list-group mt-3">
-        {books.map((book) => (
-          <li key={book._id} className="list-group-item d-flex justify-content-between align-items-center">
-            {book.title} - {book.author}
-            <div>
-              <EditList elementId={book._id} singledata={book} updateList={updateBook} />
-              <DeleteList elementId={book._id} singledata={book} deleteList={() => deleteBook(book._id)} />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+  <table className="table mt-3">
+    <thead>
+      <tr>
+        <th>Book Title</th>
+        <th>Author</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {books.map((book) => (
+        <tr key={book._id}>
+          <td>{book.title}</td>
+          <td>{book.author}</td>
+          <td>
+            <EditList
+              elementId={book._id}
+              singledata={book}
+              updateList={updateBook}
+            />
+            <DeleteList
+              elementId={book._id}
+              singledata={book}
+              deleteList={() => deleteBook(book._id)}
+            />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
   );
 }
 

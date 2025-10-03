@@ -12,7 +12,7 @@ function EditList({ elementId, singledata, updateList }) {
 
   return (
     <>
-      <Button style={{ backgroundColor: "#61DBFB", borderColor: "#61DBFB" }} className="me-2" onClick={() => setShow(true)}>
+      <Button style={{ backgroundColor: "#61DBFB", borderColor: "#61DBFB" }} onClick={() => setShow(true)}>
         Edit
       </Button>
 
