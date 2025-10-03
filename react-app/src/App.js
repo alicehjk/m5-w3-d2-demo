@@ -55,7 +55,10 @@ function App() {
         {books.map((book) => (
           <li key={book._id} className="list-group-item d-flex justify-content-between align-items-center">
             {book.title} - {book.author}
-            <DeleteList elementId={book._id} singledata={book} deleteList={() => deleteBook(book._id)} />
+            <div>
+              <EditList elementId={book._id} singledata={book} updateList={updateBook} />
+              <DeleteList elementId={book._id} singledata={book} deleteList={() => deleteBook(book._id)} />
+            </div>
           </li>
         ))}
       </ul>
