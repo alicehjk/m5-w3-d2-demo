@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+# Book List App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple MERN-style CRUD application for managing a list of books.  
+You can **Create, Read, Update, and Delete** books using MongoDB, Express, and React.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+### 1. Start MongoDB
+Make sure MongoDB is running locally.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+mongod
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> On macOS with Homebrew:
+> ```bash
+> brew services start mongodb-community
+> ```
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. Seed the Database
+Import the sample data from `db.json` into your MongoDB database.
 
-### `npm run build`
+From inside the **`server/`** folder:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+mongoimport --db booklist --collection books --file ../db.json --jsonArray
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Verify the data was inserted:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+mongosh
+use booklist
+db.books.find()
+```
 
-### `npm run eject`
+Expected output (sample):
+```json
+[
+  { "_id": ObjectId(...), "title": "Da Vinci Code", "author": "Dan Brown" },
+  { "_id": ObjectId(...), "title": "Lord of The Rings", "author": "J.R.R. Tolkien" },
+  { "_id": ObjectId(...), "title": "The Alchemist", "author": "Paulo Coelho" },
+  { "_id": ObjectId(...), "title": "A Tale of Two Cities", "author": "Charles Dickens" }
+]
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. Run the Backend
+Start the Express server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd server
+npm install   # only needed first time
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Server runs at: **http://localhost:4000**
 
-## Learn More
+Test it directly:
+```bash
+curl http://localhost:4000/api/books
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 4. Run the Frontend
+Start the React client:
 
-### Code Splitting
+```bash
+cd react-app
+npm install   # only needed first time
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Frontend runs at: **http://localhost:3000**
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Features
+- View all books (Read)
+- Add a new book (Create)
+- Edit an existing book (Update)
+- Delete a book (Delete)
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## API Endpoints
 
-### Advanced Configuration
+Base URL: `http://localhost:4000/api/books`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Get all books
+```bash
+curl http://localhost:4000/api/books
+```
 
-### Deployment
+### Create a new book
+```bash
+curl -X POST http://localhost:4000/api/books   -H "Content-Type: application/json"   -d '{"title": "New Book", "author": "Alice Kim"}'
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Update a book
+```bash
+curl -X PUT http://localhost:4000/api/books/<id>   -H "Content-Type: application/json"   -d '{"title": "Updated Title", "author": "Updated Author"}'
+```
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Delete a book
+```bash
+curl -X DELETE http://localhost:4000/api/books/<id>
+```
